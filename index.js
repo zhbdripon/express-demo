@@ -39,8 +39,12 @@ app.get('/api/courses/:id', (req, res) => {
 });
 
 app.post('/api/courses',(req,res)=>{
-    if(!req.body.name){
-        res.status(400).send('Bad request, name required');
+    const schema = {
+        name: Joi.string().min(3).required()
+    };
+    const result = Joi.validate(req.body,schema);
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
         return;
     }
     const course = {
