@@ -31,6 +31,10 @@ if(app.get('env')==='development'){
 // custom middleware
 app.use(logger);
 
+// templete engine and default templet folder
+app.set('view engine','pug');
+app.set('views','./views')
+
 
 const courses = [
     { id: 1, name: 'course 1' },
@@ -47,7 +51,10 @@ function validateCourse(course){
 }
 
 app.get('/',(req,res)=>{
-    res.send('Hello world');
+    res.render('index',{
+        title:"My express App",
+        message:"Hello world"
+    })
 });
 
 app.get('/api/courses', (req, res) => {
