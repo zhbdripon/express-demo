@@ -3,7 +3,18 @@ const Joi = require('joi');
 const logger = require('./logger');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const config = require('config')
 const app = express();
+
+//environemnt var
+console.log(`NODE_ENV: ${process.env}`);
+console.log(process.env);
+console.log(`app: ${app.get('env')}`)
+
+//Configuraion
+console.log('Application name: '+config.get('name'));
+console.log('Mail Server: '+config.get('mail.host'));
+//console.log('Mail Password: ' + config.get('mail.password'));
 
 // express built in middleware
 app.use(express.json());
@@ -12,10 +23,14 @@ app.use(express.static('public'));
 
 // third party middleware
 app.use(helmet());
-app.use(morgan('tiny'));
+if(app.get('env')==='development'){
+    app.use(morgan('tiny'));
+    console.log('Morgan loging enabled...')
+}
 
 // custom middleware
 app.use(logger);
+
 
 const courses = [
     { id: 1, name: 'course 1' },
