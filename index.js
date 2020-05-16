@@ -38,7 +38,7 @@ app.set('view engine','pug');
 app.set('views','./views')
 
 //routes
-app.use('api/courses',courses);
+app.use('/api/courses',courses);
 app.use('/',homepage);
 
 const port = process.env.PORT || 3000;
