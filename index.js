@@ -1,5 +1,4 @@
 const express = require('express');
-const Joi = require('joi');
 const logger = require('./middleware/logger');
 const courses = require('./routes/courses')
 const homepage = require('./routes/home')
@@ -7,6 +6,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const config = require('config')
 const debug = require('debug')('app:startup');
+
+const mongoose = require('mongoose');
 const app = express();
 
 //environemnt var
@@ -36,6 +37,17 @@ app.use(logger);
 // templete engine and default templete folder
 app.set('view engine','pug');
 app.set('views','./views')
+
+//connect to database
+mongoose.connect(
+        'mongodb://localhost/' + config.get('database_name'),
+        { useNewUrlParser: true, useUnifiedTopology: true }
+    ).then(() => {
+        console.log('Connected to database...');
+    })
+    .catch((err) => {
+        console.log('Unable to connect to database : ', err.message);
+    })
 
 //routes
 app.use('/api/courses',courses);

@@ -2,5 +2,6 @@
     "name": "My express app development",
     "mail": {
         "host": "dev-mail-server"
-    }
+    },
+    "database_name": "dev_course_management"
 }

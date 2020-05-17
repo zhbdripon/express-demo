@@ -1,6 +1,7 @@
 {
     "name" : "My express app production",
     "mail": {
-        "host": "production-mail-server"
+        "host": "production-mail-server",
+        "database_name": "course_management"
     }
 }

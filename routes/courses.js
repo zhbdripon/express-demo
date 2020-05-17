@@ -1,12 +1,19 @@
 const express = require('express');
+const Joi = require('joi');
+const mongoose = require('mongoose');
 const router = express.Router();
 
-const courses = [
-    { id: 1, name: 'course 1' },
-    { id: 2, name: 'course 2' },
-    { id: 3, name: 'course 3' },
-    { id: 4, name: 'course 4' },
-]
+
+const Course = mongoose.model('Course', mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            minlength: 3,
+            maxlength: 50
+        }
+    })
+);
 
 function validateCourse(course) {
     const schema = {
@@ -15,53 +22,42 @@ function validateCourse(course) {
     return Joi.validate(course, schema);
 }
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+    const courses = await Course.find();
     res.send(courses);
 });
 
-router.get('/:id', (req, res) => {
-    const id = +req.params['id'];
-    const course = courses.find((course) => course.id == id)
+router.get('/:id', async (req, res) => {
+    const course = await Course.findById(req.params.id);
     if (!course) return res.status(404).send('The course with the given id was not found');
     res.send(course);
 });
 
-router.post('/', (req, res) => {
-    const result = validateCourse(req.body);
-    const { error } = result;
-    if (error) return res.status(400).send(result.error.details[0].message);
-    const course = {
-        id: courses.length + 1,
-        name: req.body.name
-    }
-    courses.push(course);
+router.post('/', async(req, res) => {
+    console.log('Hello....');
+    const { error } = validateCourse(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    let course =new Course({ name: req.body.name })
+    course = await course.save();
     res.send(course);
 })
 
-router.put('/:id', (req, res) => {
-
-    const course = courses.find(course => course.id === +req.params.id);
+router.put('/:id', async(req, res) => {
+    const {error} = validateCourse(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    const course = await Course.findByIdAndUpdate(req.params.id,{name:req.body.name},{new:true})
     if (!course) return res.status(404).send('course with the given id not found')
-
-    const result = validateCourse(req.body);
-    const { error } = result;
-
-    if (error) {
-        res.status(400).send(result.error.details[0].message);
-        return;
-    }
-
-    course.name = req.body.name;
     res.send(course);
 })
 
-router.delete('/:id', (req, res) => {
-    const course = courses.find(course => course.id === +req.params.id);
-    if (!course) return res.status(404).send('course with the given id not found');
-    const index = courses.indexOf(course);
-    courses.splice(index, 1);
-    res.status(204);
-    return;
+router.delete('/:id', async (req, res) => {
+    try{
+        await Course.findByIdAndDelete(req.params.id);
+    }catch(ex){
+        return res.status(404).send('course with the given id not found')
+    }
+    return res.status(204).send();
+    
 })
 
 module.exports = router;
