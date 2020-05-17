@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('./middleware/logger');
+const error = require('./middleware/error')
 const courses = require('./routes/courses')
 const homepage = require('./routes/home')
 const helmet = require('helmet');
@@ -52,6 +53,9 @@ mongoose.connect(
 //routes
 app.use('/api/courses',courses);
 app.use('/',homepage);
+
+// error middleware, declared after all the other middleware
+app.use(error)
 
 const port = process.env.PORT || 3000;
 
