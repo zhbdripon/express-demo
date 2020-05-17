@@ -22,6 +22,7 @@ function validateCourse(course) {
     return Joi.validate(course, schema);
 }
 
+
 router.get('/', async (req, res) => {
     const courses = await Course.find();
     res.send(courses);
@@ -50,11 +51,8 @@ router.put('/:id', async(req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    try{
-        await Course.findByIdAndDelete(req.params.id);
-    }catch(ex){
-        return res.status(404).send('course with the given id not found');
-    }
+    const course = await Course.findByIdAndDelete(req.params.id);
+    if (!course) return res.status(404).send('course with the given id not found');
     return res.status(204).send();
     
 });
