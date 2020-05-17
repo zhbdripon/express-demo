@@ -1,7 +1,6 @@
 const express = require('express');
 const Joi = require('joi');
 const mongoose = require('mongoose');
-const asyncErrorHandler = require('../middleware/async')
 const router = express.Router();
 
 
@@ -23,44 +22,41 @@ function validateCourse(course) {
     return Joi.validate(course, schema);
 }
 
-router.get('/', asyncErrorHandler(async (req, res) => {
+router.get('/', async (req, res) => {
     const courses = await Course.find();
     res.send(courses);
-}));
+});
 
-router.get('/:id', asyncErrorHandler(async (req, res) => {
-    const course = await Course.findById(req.params.id,(error)=>{
-        console.log(error);
-    });
+router.get('/:id', async (req, res) => {
+    const course = await Course.findById(req.params.id);
     if (!course) return res.status(404).send('The course with the given id was not found');
     res.send(course);
-}));
+});
 
-router.post('/', asyncErrorHandler(async(req, res) => {
-    console.log('Hello....');
+router.post('/', async(req, res) => {
     const { error } = validateCourse(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-    let course =new Course({ name: req.body.name })
+    let course =new Course({ name: req.body.name });
     course = await course.save();
     res.send(course);
-}))
+})
 
-router.put('/:id', asyncErrorHandler(async(req, res) => {
+router.put('/:id', async(req, res) => {
     const {error} = validateCourse(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-    const course = await Course.findByIdAndUpdate(req.params.id,{name:req.body.name},{new:true})
-    if (!course) return res.status(404).send('course with the given id not found')
+    const course = await Course.findByIdAndUpdate(req.params.id,{name:req.body.name},{new:true});
+    if (!course) return res.status(404).send('course with the given id not found');
     res.send(course);
-}))
+});
 
-router.delete('/:id', asyncErrorHandler(async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try{
         await Course.findByIdAndDelete(req.params.id);
     }catch(ex){
-        return res.status(404).send('course with the given id not found')
+        return res.status(404).send('course with the given id not found');
     }
     return res.status(204).send();
     
-}))
+});
 
 module.exports = router;

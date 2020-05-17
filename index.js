@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('./middleware/logger');
 const error = require('./middleware/error')
+require('express-async-errors');
 const courses = require('./routes/courses')
 const homepage = require('./routes/home')
 const helmet = require('helmet');
