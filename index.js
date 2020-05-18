@@ -2,8 +2,11 @@ const express = require('express');
 const logger = require('./middleware/logger');
 const error = require('./middleware/error')
 require('express-async-errors');
+
 const courses = require('./routes/courses')
 const homepage = require('./routes/home')
+const customers = require('./routes/customers')
+
 const helmet = require('helmet');
 const morgan = require('morgan');
 const config = require('config')
@@ -53,6 +56,7 @@ mongoose.connect(
 
 //routes
 app.use('/api/courses',courses);
+app.use('/api/customers', customers);
 app.use('/',homepage);
 
 // error middleware, declared after all the other middleware
