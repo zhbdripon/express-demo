@@ -1,27 +1,6 @@
 const express = require('express');
-const Joi = require('joi');
-const mongoose = require('mongoose');
 const router = express.Router();
-
-
-const Course = mongoose.model('Course', mongoose.Schema(
-    {
-        name: {
-            type: String,
-            required: true,
-            minlength: 3,
-            maxlength: 50
-        }
-    })
-);
-
-function validateCourse(course) {
-    const schema = {
-        name: Joi.string().min(3).required()
-    };
-    return Joi.validate(course, schema);
-}
-
+const {Course,validateCourse} = require('../models/course');
 
 router.get('/', async (req, res) => {
     const courses = await Course.find();
