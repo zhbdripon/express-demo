@@ -6,6 +6,7 @@ require('express-async-errors');
 const courses = require('./routes/courses')
 const homepage = require('./routes/home')
 const customers = require('./routes/customers')
+const authors = require('./routes/authors')
 
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -57,6 +58,7 @@ mongoose.connect(
 //routes
 app.use('/api/courses',courses);
 app.use('/api/customers', customers);
+app.use('/api/authors', authors);
 app.use('/',homepage);
 
 // error middleware, declared after all the other middleware
