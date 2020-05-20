@@ -21,9 +21,7 @@ router.post('/', async(req, res) => {
     const authors = [];
     for(id of req.body.authors){
         const author = await Author.findById(id);
-        if(!author){
-            return res.status(404).send(`author not found with id ${id}`);
-        }
+        if(!author) return res.status(404).send(`author not found with id ${id}`);
         authors.push({ _id: author._id, name: author.name})
     }
 
@@ -45,9 +43,7 @@ router.put('/:id', async(req, res) => {
     const authors = [];
     for (id of req.body.authors) {
         const author = await Author.findById(id);
-        if (!author) {
-            return res.status(404).send(`author not found with id ${id}`);
-        }
+        if (!author)    return res.status(404).send(`author not found with id ${id}`);
         authors.push({ _id: author._id, name: author.name })
     }
 
@@ -69,6 +65,5 @@ router.delete('/:id', async (req, res) => {
     return res.status(204).send();
     
 });
-
 
 module.exports = router;
