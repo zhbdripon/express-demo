@@ -29,8 +29,9 @@ router.post('/', async(req, res) => {
         title: req.body.title,
         authors: authors,   
         total_lecture: req.body.total_lecture,
-        price: req.body.price
-
+        price: req.body.price,
+        number_in_stock: req.body.number_in_stock,
+        daily_rental_rate: req.body.daily_rental_rate
     });
     course = await course.save();
     res.send(course);
@@ -52,7 +53,9 @@ router.put('/:id', async(req, res) => {
             title: req.body.title,
             authors: authors,
             total_lecture: req.body.total_lecture,
-            price: req.body.price
+            price: req.body.price,
+            number_in_stock: req.body.number_in_stock,
+            daily_rental_rate: req.body.daily_rental_rate
         },
         {new:true});
     if (!course) return res.status(404).send('course with the given id not found');

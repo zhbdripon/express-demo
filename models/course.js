@@ -29,6 +29,18 @@ const Course = mongoose.model('Course', mongoose.Schema(
             min: 0,
             max: 10000
 
+        },
+        number_in_stock: {
+            type: Number,
+            required: true,
+            min: 0,
+            max: 1000000
+        },
+        daily_rental_rate: {
+            type: Number,
+            required: true,
+            min: 0,
+            max: 10000
         }
     })
 );
@@ -38,7 +50,9 @@ function validateCourse(course) {
         title: Joi.string().trim().min(5).required(255),
         authors: Joi.array().items(Joi.string().required()).min(1).max(15),
         total_lecture: Joi.number().min(0).max(1000).required(),
-        price: Joi.number().min(0).max(10000).required()
+        price: Joi.number().min(0).max(10000).required(),
+        number_in_stock: Joi.number().min(0).max(1000000).required(),
+        daily_rental_rate: Joi.number().min(0).max(10000).required()
     };
     return Joi.validate(course, schema);
 }
