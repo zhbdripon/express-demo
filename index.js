@@ -1,16 +1,17 @@
 const express = require('express');
 const logger = require('./middleware/logger');
-const error = require('./middleware/error')
+const error = require('./middleware/error');
 require('express-async-errors');
 
-const courses = require('./routes/courses')
-const homepage = require('./routes/home')
-const customers = require('./routes/customers')
-const authors = require('./routes/authors')
+const courses = require('./routes/courses');
+const homepage = require('./routes/home');
+const customers = require('./routes/customers');
+const authors = require('./routes/authors');
+const orders = require('./routes/rentals');
 
 const helmet = require('helmet');
 const morgan = require('morgan');
-const config = require('config')
+const config = require('config');
 const debug = require('debug')('app:startup');
 
 const mongoose = require('mongoose');
@@ -59,6 +60,7 @@ mongoose.connect(
 app.use('/api/courses',courses);
 app.use('/api/customers', customers);
 app.use('/api/authors', authors);
+app.use('/api/rentals', orders);
 app.use('/',homepage);
 
 // error middleware, declared after all the other middleware
