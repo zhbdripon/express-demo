@@ -1,4 +1,5 @@
 const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi)
 const mongoose = require('mongoose');
 const { authorSchema } = require('./author')
 
@@ -48,7 +49,7 @@ const Course = mongoose.model('Course', mongoose.Schema(
 function validateCourse(course) {
     const schema = {
         title: Joi.string().trim().min(5).required(255),
-        authors: Joi.array().items(Joi.string().required()).min(1).max(15),
+        authors: Joi.array().items(Joi.objectId().required()).min(1).max(15),
         total_lecture: Joi.number().min(0).max(1000).required(),
         price: Joi.number().min(0).max(10000).required(),
         number_in_stock: Joi.number().min(0).max(1000000).required(),
