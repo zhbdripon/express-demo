@@ -8,6 +8,7 @@ const homepage = require('./routes/home');
 const customers = require('./routes/customers');
 const authors = require('./routes/authors');
 const orders = require('./routes/rentals');
+const users = require('./routes/users');
 
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -64,6 +65,7 @@ app.use('/api/courses',courses);
 app.use('/api/customers', customers);
 app.use('/api/authors', authors);
 app.use('/api/rentals', orders);
+app.use('/api/users', users);
 app.use('/',homepage);
 
 // error middleware, declared after all the other middleware
