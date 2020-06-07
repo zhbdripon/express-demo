@@ -3,5 +3,6 @@
     "mail": {
         "host": "dev-mail-server"
     },
-    "database_name": "dev_course_management"
+    "database_name": "dev_course_management",
+    "jwtPrivateKey": ""
 }

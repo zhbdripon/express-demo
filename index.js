@@ -29,7 +29,12 @@ console.log(`app: ${app.get('env')}`)
 //Configuraion
 console.log('Application name: '+config.get('name'));
 console.log('Mail Server: '+config.get('mail.host'));
-console.log('Mail Password: ' + config.get('mail.password'));
+
+//check for required environment variables
+if(!config.get('jwtPrivateKey')){
+    console.log('FATAL ERROR: jwtPrivateKey not define.');
+    process.exit(1);
+}
 
 // express built in middleware
 app.use(express.json());

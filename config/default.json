@@ -3,5 +3,6 @@
     "mail": {
         "host":"default-mail-server"
     },
-    "database_name": "course_management"
+    "database_name": "course_management",
+    "jwtPrivateKey": ""
 }

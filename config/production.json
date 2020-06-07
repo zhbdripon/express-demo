@@ -3,5 +3,6 @@
     "mail": {
         "host": "production-mail-server",
         "database_name": "course_management"
-    }
+    },
+    "jwtPrivateKey": ""
 }
